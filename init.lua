@@ -872,13 +872,10 @@ end
 
 
 dofile(modpath.."/settings.lua")
-dofile(modpath.."/cooldown_stuff.lua")
 dofile(modpath.."/skills.lua")
 dofile(modpath.."/misc.lua")
---dofile(modpath.."/bullet_knockback.lua")
 dofile(modpath.."/ammo.lua")
 dofile(modpath.."/crafting.lua")
-dofile(modpath.."/go_slower_while_wielding.lua")
 dofile(modpath.."/plasma_guns_and_stuff.lua")
 
 if rweapons_shurikens == "true" then
@@ -1122,14 +1119,191 @@ rangedweapons.scope_hud =
 	})
 end)
 
+
+local slowdown_items = {
+"rangedweapons:minigun",
+"rangedweapons:rpg",
+"rangedweapons:rpg_rld",
+"rangedweapons:barrett",
+"rangedweapons:china_lake",
+"rangedweapons:m60",
+"rangedweapons:negev",
+"rangedweapons:awp",
+"rangedweapons:m200",
+"rangedweapons:m2",
+"rangedweapons:m2_r",
+"rangedweapons:gauss_rifle",
+}
+
+
+local player_speeds = {}
+
+local function is_slowdown_item(item_name)
+    for _, item in ipairs(slowdown_items) do
+        if item == item_name then
+            return true
+        end
+    end
+    return false
+end
+local function update_player_speed(player)
+    local player_name = player:get_player_name()
+    local wielded_item = player:get_wielded_item():get_name()
+    local current_speed = player:get_physics_override().speed or 1.0
+
+    if is_slowdown_item(wielded_item) then
+        if not player_speeds[player_name] then
+            player_speeds[player_name] = current_speed
+        end
+        player:set_physics_override({speed = player_speeds[player_name] * 0.5, jump = 1.0})
+    else
+        if player_speeds[player_name] then
+            player:set_physics_override({speed = player_speeds[player_name], jump = 1.0})
+            player_speeds[player_name] = nil
+        end
+    end
+end
+
 	local timer = 0
-minetest.register_globalstep(function(dtime)
+minetest.register_globalstep(function(dtime, player)
 	timer = timer + dtime;
 	if timer >= 1.0 then
+		for _, player in pairs(minetest.get_connected_players()) do
+			player:hud_change(rangedweapons.hit, "text", "rangedweapons_empty_icon.png")
+			timer = 0
+		end
+	end
+
 	for _, player in pairs(minetest.get_connected_players()) do
-player:hud_change(rangedweapons.hit, "text", "rangedweapons_empty_icon.png")
-	timer = 0
+		local w_item = player:get_wielded_item()
+		local controls = player:get_player_control()
+		local u_meta = player:get_meta()
+		local cool_down = u_meta:get_float("rw_cooldown") or 0
+
+		-- Handle weapon zoom HUD and FOV
+		if w_item:get_definition().weapon_zoom ~= nil then
+			if controls.zoom then
+				player:hud_change(rangedweapons.scope_hud, "text", "rangedweapons_scopehud.png")
+			else
+				player:hud_change(rangedweapons.scope_hud, "text", "rangedweapons_empty_icon.png")
 			end
+
+			local wpn_zoom = w_item:get_definition().weapon_zoom
+			if player:get_properties().zoom_fov ~= wpn_zoom then
+				player:set_properties({ zoom_fov = wpn_zoom })
 			end
-				end)
+		else
+			player:hud_change(rangedweapons.scope_hud, "text", "rangedweapons_empty_icon.png")
+			if player:get_inventory():contains_item("main", "binoculars:binoculars") then
+				local new_zoom_fov = 10
+				if player:get_properties().zoom_fov ~= new_zoom_fov then
+					player:set_properties({ zoom_fov = new_zoom_fov })
+				end
+			else
+				local new_zoom_fov = 0
+				if player:get_properties().zoom_fov ~= new_zoom_fov then
+					player:set_properties({ zoom_fov = new_zoom_fov })
+				end
+			end
+		end
+
+		-- Handle cooldown timer
+		if cool_down > 0 then
+			u_meta:set_float("rw_cooldown", cool_down - dtime)
+		end
+
+		local itemstack = player:get_wielded_item()
+
+		-- Automatic gun fire
+		if controls.LMB then
+			local def = itemstack:get_definition()
+
+			if def.RW_gun_capabilities and def.RW_gun_capabilities.automatic_gun and def.RW_gun_capabilities.automatic_gun > 0 then
+				rangedweapons_shoot_gun(itemstack, player)
+				player:set_wielded_item(itemstack)
+			end
+
+			if def.RW_powergun_capabilities and def.RW_powergun_capabilities.automatic_gun and def.RW_powergun_capabilities.automatic_gun > 0 then
+				rangedweapons_shoot_powergun(itemstack, player)
+				player:set_wielded_item(itemstack)
+			end
+		end
+
+		-- Handle reload and loaded gun logic
+		if u_meta:get_float("rw_cooldown") <= 0 then
+			local def = itemstack:get_definition()
+
+			if def.loaded_gun ~= nil then
+				if def.loaded_sound ~= nil then
+					minetest.sound_play(def.loaded_sound, {
+						pos = player:get_pos(),
+						max_hear_distance = 15,
+						gain = 1.0,
+						fade = 0.0,
+						pitch = 1.0
+					})
+				end
+				itemstack:set_name(def.loaded_gun)
+				player:set_wielded_item(itemstack)
+			end
+
+			if def.rw_next_reload ~= nil then
+				if def.load_sound ~= nil then
+					minetest.sound_play(def.load_sound, {
+						pos = player:get_pos(),
+						max_hear_distance = 15,
+						gain = 1.0,
+						fade = 0.0,
+						pitch = 1.0
+					})
+				end
+				local gunMeta = itemstack:get_meta()
+				u_meta:set_float("rw_cooldown", gunMeta:get_float("RW_reload_delay"))
+				itemstack:set_name(def.rw_next_reload)
+				player:set_wielded_item(itemstack)
+			end
+		end
+	end
+	-- weapons slow you down
+	for _, player in ipairs(minetest.get_connected_players()) do
+        update_player_speed(player)
+    end
+	-- grenades
+	gtimer = gtimer + dtime;
+	if gtimer >= 3.0 then
+		for _, player in pairs(minetest.get_connected_players()) do
+		local pos = player:get_pos()
+			if player:get_wielded_item():get_name() == "rangedweapons:smoke_grenade_nopin" then
+				player:set_wielded_item("")
+				gtimer = 0
+				minetest.add_particlespawner({
+               		amount = 150,
+                	time = 10,
+                	minpos = {x = pos.x - 5, y = pos.y, z = pos.z - 5},
+                	maxpos = {x = pos.x + 5, y = pos.y + 1, z = pos.z + 5},
+                	minvel = {x = -0.5, y = 1, z = -0.5},
+                	maxvel = {x = 0.5, y = 2, z = 0.5},
+                	minacc = {x = -0.1, y = 0.1, z = -0.1},
+                	maxacc = {x = 0.1, y = 0.2, z = 0.1},
+                	minexptime = 10,
+                	maxexptime = 10,
+                	minsize = 50,
+                	maxsize = 100,
+                	collisiondetection = true,
+                	collision_removal = true,
+                	vertical = true,
+                	texture = "tnt_smoke.png",
+                	glow = 10,
+            	})
+		else if player:get_wielded_item():get_name() == "rangedweapons:hand_grenade_nopin" then
+			player:set_wielded_item("")
+			gtimer = 0
+			tnt.boom(pos, grenade_boom)
+		end
+
+			end
+		end
+	end
+
+end)
 

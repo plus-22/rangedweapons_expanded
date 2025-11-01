@@ -41,7 +41,7 @@ local grenade_boom = {
 		burning = "rangedweapons_invisible.png"
 	},
 }
-	local gtimer = 0
+	gtimer = 0
 minetest.register_craftitem("rangedweapons:hand_grenade", {
 	stack_max= 1,
 	wield_scale = {x=1.1,y=1.1,z=1.05},
@@ -106,18 +106,6 @@ minetest.register_craftitem("rangedweapons:hand_grenade_nopin", {
 
 tnt.register_tnt(grenade_boom)
 
-
-minetest.register_globalstep(function(dtime, player, pos)
-	gtimer = gtimer + dtime;
-	if gtimer >= 3.0 then
-	for _, player in pairs(minetest.get_connected_players()) do
-	local pos = player:get_pos()
-		if player:get_wielded_item():get_name() == "rangedweapons:hand_grenade_nopin" then
-		player:set_wielded_item("")
-		gtimer = 0
-		tnt.boom(pos, grenade_boom)
-		end end end end)
-
 local rangedweapons_grenade = {
 	physical = true,
 	btimer = 0,
@@ -145,47 +133,6 @@ end
 
 
 minetest.register_entity("rangedweapons:grenade", rangedweapons_grenade)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 minetest.register_craftitem("rangedweapons:smoke_grenade", {
@@ -217,12 +164,6 @@ pinEnt:set_rotation({x=0,y=yaw + math.pi,z=-svertical})
 end
 	 return itemstack end,
 })
-
-
-
-
-
-
 
 
 minetest.register_craftitem("rangedweapons:smoke_grenade_nopin", {
@@ -257,36 +198,6 @@ minetest.register_craftitem("rangedweapons:smoke_grenade_nopin", {
 })
 
 tnt.register_tnt(grenade_boom)
-
-
-minetest.register_globalstep(function(dtime, player, pos)
-	gtimer = gtimer + dtime;
-	if gtimer >= 3.0 then
-	for _, player in pairs(minetest.get_connected_players()) do
-	local pos = player:get_pos()
-		if player:get_wielded_item():get_name() == "rangedweapons:smoke_grenade_nopin" then
-		player:set_wielded_item("")
-		gtimer = 0
-		minetest.add_particlespawner({
-                amount = 150,
-                time = 10,
-                minpos = {x = pos.x - 5, y = pos.y, z = pos.z - 5},
-                maxpos = {x = pos.x + 5, y = pos.y + 1, z = pos.z + 5},
-                minvel = {x = -0.5, y = 1, z = -0.5},
-                maxvel = {x = 0.5, y = 2, z = 0.5},
-                minacc = {x = -0.1, y = 0.1, z = -0.1},
-                maxacc = {x = 0.1, y = 0.2, z = 0.1},
-                minexptime = 10,
-                maxexptime = 10,
-                minsize = 50,
-                maxsize = 100,
-                collisiondetection = true,
-                collision_removal = true,
-                vertical = true,
-                texture = "tnt_smoke.png",
-                glow = 10,
-            })
-		end end end end)
 
 local rangedweapons_smoke_grenade = {
 	physical = true,
@@ -341,7 +252,3 @@ end
 
 
 minetest.register_entity("rangedweapons:smoke_grenade", rangedweapons_smoke_grenade)
-
-
-
-
