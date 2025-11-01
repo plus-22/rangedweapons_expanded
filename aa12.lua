@@ -61,7 +61,6 @@ minetest.register_tool("rangedweapons:aa12_rld", {
 		gun_magazine = "rangedweapons:drum_mag",
 		gun_icon = "rangedweapons_aa12_icon.png",
 		gun_unloaded = "rangedweapons:aa12_r",
-        gun_cooling="rangedweapons:aa12_rld",
 		gun_velocity = 25,
 		gun_accuracy = 60,
 		gun_cooldown = 0.2,

@@ -67,7 +67,6 @@ description = "" ..core.colorize("#35cdff","Steyr TMP\n") ..core.colorize("#FFFF
 		gun_magazine = "rangedweapons:machinepistol_mag",
 		gun_icon = "rangedweapons_tmp_icon.png",
 		gun_unloaded = "rangedweapons:tmp_r",
-        gun_cooling="rangedweapons:tmp_rld",
 		gun_velocity = 30,
 		gun_accuracy = 64,
 		gun_cooldown = 0.066,

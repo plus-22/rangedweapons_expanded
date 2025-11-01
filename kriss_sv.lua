@@ -66,7 +66,6 @@ minetest.register_tool("rangedweapons:kriss_sv_rld", {
 		gun_magazine = "rangedweapons:machinepistol_mag",
 		gun_icon = "rangedweapons_kriss_sv_icon.png",
 		gun_unloaded = "rangedweapons:kriss_sv_r",
-        gun_cooling = "rangedweapons:kriss_sv_rld",
 		gun_velocity = 30,
 		gun_accuracy = 78,
 		gun_cooldown = 0.05,

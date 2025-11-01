@@ -93,7 +93,7 @@ minetest.register_on_player_receive_fields(function(player, form, field)
                 "label[0,3.7;]"..
                 "label[0,4;The AEP7 laser pistol is a standard]"..
                 "label[0,4.3;laser pistol that shoots laser beams.]"..
-                "label[0,4.6;DMG: 12]"..
+                "label[0,4.6;DMG: 10]"..
                 "label[0,4.9;Consumes 8 microfusion cells per shot.]"..
                 "label[0,5.2;Shoots every 0.2 seconds.]"..
 		        "image[1.5,6.5;2.5,2.5;laser_pistol_recipe.png]"..
@@ -104,7 +104,7 @@ minetest.register_on_player_receive_fields(function(player, form, field)
                 "label[7,3.7;]"..
                 "label[7,4;The AER9 laser rifle is a standard]"..
                 "label[7,4.3;laser rifle that shoots laser beams.]"..
-                "label[7,4.6;DMG: 13]"..
+                "label[7,4.6;DMG: 11]"..
                 "label[7,4.9;Consumes 8 microfusion cells per shot.]"..
                 "label[7,5.2;Shoots every 0.2 seconds.]"..
 		        "image[8.5,6.5;2.5,2.5;laser_rifle_recipe.png]"..
@@ -124,7 +124,7 @@ minetest.register_on_player_receive_fields(function(player, form, field)
                 "label[0,4;The tri-beam laser rifle is a modified]"..
                 "label[0,4.3;version of the AER9, meant to shoot]"..
                 "label[0,4.6;three beams instead of one.]"..
-                "label[0,4.9;DMG: 10 per beam]"..
+                "label[0,4.9;DMG: 9 per beam]"..
                 "label[0,5.2;Consumes 8 microfusion cells per shot.]"..
                 "label[0,5.5;Shoots every 0.2 seconds.]"..
 		        "image[1.5,6.5;2.5,2.5;tri_beam_recipe.png]"..

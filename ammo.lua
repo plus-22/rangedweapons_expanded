@@ -94,7 +94,7 @@ if hit_texture.name ~= nil then
 hit_texture = hit_texture.name
 end
 
-	minetest.add_particle({
+	--[[minetest.add_particle({
 		pos = self.object:get_pos(),
 		velocity = {x=0, y=0, z=0},
           	acceleration = {x=0, y=0, z=0},
@@ -104,7 +104,8 @@ end
 		vertical = false,
 		texture = "rangedweapons_bullethole.png",
 		glow = 0,
-	})
+	})]]
+
 	for i=1,math.random(4,8) do
 if rweapons_enable_sparks == "true" then
 	minetest.add_particle({

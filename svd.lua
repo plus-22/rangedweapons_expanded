@@ -69,7 +69,6 @@ RW_gun_capabilities = {
 		gun_magazine = "rangedweapons:rifle_mag",
 		gun_icon = "rangedweapons_svd_icon.png",
 		gun_unloaded = "rangedweapons:svd_r",
-		gun_cooling = "rangedweapons:svd_rld",
 		gun_velocity = 75,
 		gun_accuracy = 100,
 		gun_cooldown = 0.15,

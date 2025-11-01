@@ -66,7 +66,6 @@ minetest.register_tool("rangedweapons:m16_rld", {
 		gun_magazine = "rangedweapons:rifle_mag",
 		gun_icon = "rangedweapons_m16_icon.png",
 		gun_unloaded = "rangedweapons:m16_r",
-        gun_cooling = "rangedweapons:m16_rld",
 		gun_velocity = 245,
 		gun_accuracy = 83,
 		gun_cooldown = 0.067,

@@ -63,7 +63,6 @@ minetest.register_tool("rangedweapons:as_val_rld", {
 		gun_magazine = "rangedweapons:rifle_mag",
 		gun_icon = "as_val_icon.png",
 		gun_unloaded = "rangedweapons:as_val_r",
-        gun_cooling="rangedweapons:as_val_rld",
 		gun_velocity = 240,
 		gun_accuracy = 89,
 		gun_cooldown = 0.075,

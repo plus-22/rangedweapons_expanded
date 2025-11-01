@@ -63,7 +63,6 @@ minetest.register_tool("rangedweapons:ak12_rld", {
 		gun_magazine = "rangedweapons:assaultrifle_mag",
 		gun_icon = "ak112_icon.png",
 		gun_unloaded = "rangedweapons:ak12_r",
-        gun_cooling="rangedweapons:ak12_rld",
 		gun_velocity = 40,
 		gun_accuracy = 89,
 		gun_cooldown = 0.08,

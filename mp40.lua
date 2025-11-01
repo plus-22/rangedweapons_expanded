@@ -59,7 +59,6 @@ minetest.register_tool("rangedweapons:mp40_rld", {
 		gun_magazine = "rangedweapons:machinepistol_mag",
 		gun_icon = "rangedweapons_mp40_icon.png",
 		gun_unloaded = "rangedweapons:mp40_r",
-        gun_cooling="rangedweapons:mp40_rld",
 		gun_velocity = 35,
 		gun_accuracy = 75,
 		gun_cooldown = 0.13,

@@ -61,7 +61,6 @@ minetest.register_tool("rangedweapons:galil_rld", {
 		gun_magazine = "rangedweapons:assaultrifle_mag",
 		gun_icon = "galil_icon.png",
 		gun_unloaded = "rangedweapons:galil_r",
-        gun_cooling="rangedweapons:galil_rld",
 		gun_velocity = 40,
 		gun_accuracy = 79,
 		gun_cooldown = 0.11,

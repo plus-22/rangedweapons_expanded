@@ -76,7 +76,6 @@ RW_gun_capabilities = {
 		gun_magazine = "rangedweapons:rifle_mag",
 		gun_icon = "barrett_icon.png",
 		gun_unloaded = "rangedweapons:barrett_r",
-		gun_cooling = "rangedweapons:barrett_rld",
 		gun_velocity = 50,
 		gun_accuracy = 100,
 		gun_cooldown = 0.5,

@@ -61,7 +61,6 @@ minetest.register_tool("rangedweapons:p90_rld", {
 		gun_magazine = "rangedweapons:machinepistol_mag",
 		gun_icon = "p90_icon.png",
 		gun_unloaded = "rangedweapons:p90_r",
-        gun_cooling="rangedweapons:p90_rld",
 		gun_velocity = 40,
 		gun_accuracy = 89,
 		gun_cooldown = 0.07,

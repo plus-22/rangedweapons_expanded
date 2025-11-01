@@ -65,7 +65,6 @@ description = "" ..core.colorize("#35cdff","RPK\n") ..core.colorize("#FFFFFF", "
 		gun_magazine = "rangedweapons:drum_mag",
 		gun_icon = "rangedweapons_rpk_icon.png",
 		gun_unloaded = "rangedweapons:rpk_r",
-        gun_cooling="rangedweapons:rpk_rld",
 		gun_velocity = 45,
 		gun_accuracy = 70,
 		gun_cooldown = 0.1,

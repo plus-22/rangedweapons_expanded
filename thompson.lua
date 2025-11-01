@@ -75,7 +75,6 @@ description = "" ..core.colorize("#35cdff","Thompson\n") ..core.colorize("#FFFFF
 		gun_magazine = "rangedweapons:machinepistol_mag",
 		gun_icon = "rangedweapons_thompson_icon.png",
 		gun_unloaded = "rangedweapons:thompson_r",
-        gun_cooling="rangedweapons:thompson_rld",
 		gun_velocity = 35,
 		gun_accuracy = 75,
 		gun_cooldown = 0.1,

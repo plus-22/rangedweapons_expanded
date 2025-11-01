@@ -77,7 +77,6 @@ description = "" ..core.colorize("#35cdff","IMI UZI\n") ..core.colorize("#FFFFFF
 		gun_magazine = "rangedweapons:machinepistol_mag",
 		gun_icon = "rangedweapons_uzi_icon.png",
 		gun_unloaded = "rangedweapons:uzi_r",
-        gun_cooling="rangedweapons:uzi_rld",
 		gun_velocity = 35,
 		gun_accuracy = 72,
 		gun_cooldown = 0.08,
