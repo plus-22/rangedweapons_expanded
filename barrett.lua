@@ -4,12 +4,23 @@ minetest.register_tool("rangedweapons:barrett_uld", {
 	stack_max= 1,
 	wield_scale = {x=3.1,y=3.1,z=2.2},
 	range = 0,
-		description = "" ..core.colorize("#35cdff","Barrett M82\n") ..core.colorize("#FFFFFF", "DMG: 35 | Capacity: 6 rounds\n")..core.colorize("#FFFFFF", "Ammo:  .50 BMG | Type: anti-material rifle"),
+		description = "" ..core.colorize("#35cdff","Barrett M82\n") ..core.colorize("#FFFFFF", "DMG: 35 | Capacity: 6 rounds\n")..core.colorize("#FFFFFF", "Ammo:  .50 BMG | Type: anti-material rifle\n") ..core.colorize("#FFFFFF", "AUX1 key to use scope"),
 	groups = {not_in_creative_inventory = 1},
 	inventory_image = "barrett.png",
-	weapon_zoom = 7.5,
-	on_use = function(user)
-		minetest.sound_play("rangedweapons_empty", {user})
+	on_use = function(itemstack, user, pointed_thing)
+		
+		if not user then
+			return itemstack
+		end
+		local pos = user:get_pos()
+		minetest.sound_play("rangedweapons_empty", {
+			pos = pos,
+			max_hear_distance = 15,
+			gain = 1.0,
+			fade = 0.0,
+			pitch = 1.0,
+		})
+		return itemstack
 	end,
 on_secondary_use = function(itemstack, user, pointed_thing)
 eject_shell(itemstack,user,"rangedweapons:barrett_rld",1.0,"rangedweapons_rifle_reload_a","rangedweapons:empty_shell")
@@ -61,9 +72,8 @@ minetest.register_tool("rangedweapons:barrett_rld", {
 
 
 minetest.register_tool("rangedweapons:barrett", {
-		description = "" ..core.colorize("#35cdff","Barrett M82\n") ..core.colorize("#FFFFFF", "DMG: 35 | Capacity: 6 rounds\n")..core.colorize("#FFFFFF", "Ammo:  .50 BMG | Type: anti-material rifle"),
+		description = "" ..core.colorize("#35cdff","Barrett M82\n") ..core.colorize("#FFFFFF", "DMG: 35 | Capacity: 6 rounds\n")..core.colorize("#FFFFFF", "Ammo:  .50 BMG | Type: anti-material rifle\n") ..core.colorize("#FFFFFF", "AUX1 key to use scope"),
 	range = 0,
-	weapon_zoom = 6,
 	wield_scale = {x=3.1,y=3.1,z=2.2},
 	inventory_image = "barrett.png",
 RW_gun_capabilities = {
@@ -76,6 +86,7 @@ RW_gun_capabilities = {
 		gun_magazine = "rangedweapons:rifle_mag",
 		gun_icon = "barrett_icon.png",
 		gun_unloaded = "rangedweapons:barrett_r",
+		gun_cooling = "rangedweapons:barrett_rld",
 		gun_velocity = 50,
 		gun_accuracy = 100,
 		gun_cooldown = 0.5,

@@ -66,8 +66,20 @@ wield_scale = {x=3.0,y=3.0,z=2.5},
 		description = "" ..core.colorize("#35cdff","China lake 40mm grenade launcher\n") ..core.colorize("#FFFFFF", "DMG: 12 by direct contact | Capacity: 4 rounds\n")..core.colorize("#FFFFFF", "Ammo: 40mm grenades | Type: grenade launcher"),
 	groups = {not_in_creative_inventory = 1},
      inventory_image = "china_lake.png",
-	on_use = function(user)
-		minetest.sound_play("rangedweapons_empty", {user})
+	on_use = function(itemstack, user, pointed_thing)
+		
+		if not user then
+			return itemstack
+		end
+		local pos = user:get_pos()
+		minetest.sound_play("rangedweapons_empty", {
+			pos = pos,
+			max_hear_distance = 15,
+			gain = 1.0,
+			fade = 0.0,
+			pitch = 1.0,
+		})
+		return itemstack
 	end,
 on_secondary_use = function(itemstack, user, pointed_thing)
 eject_shell(itemstack,user,"rangedweapons:china_lake_rlding",0.8,"rangedweapons_shotgun_reload_a","rangedweapons:shell_grenadedrop")

@@ -35,9 +35,8 @@ minetest.register_tool("rangedweapons:scar20_rrr", {
 	minetest.register_tool("rangedweapons:scar20", {
 	stack_max= 1,
 	wield_scale = {x=1.7,y=1.7,z=1.25},
-description = "" ..core.colorize("#35cdff","FN Scar 20\n") ..core.colorize("#FFFFFF", "DMG: 7 | Capacity: 10 rounds\n")..core.colorize("#FFFFFF", "Ammo: .308 Winchester | Type: Marksman\n")   ..core.colorize("#FFFFFF", "sneak + reload to switch fire mode - current: Full auto"),
+description = "" ..core.colorize("#35cdff","FN Scar 20\n") ..core.colorize("#FFFFFF", "DMG: 7 | Capacity: 10 rounds\n")..core.colorize("#FFFFFF", "Ammo: .308 Winchester | Type: Marksman\n")   ..core.colorize("#FFFFFF", "sneak + reload to switch fire mode - current: Full auto\n") ..core.colorize("#FFFFFF", "AUX1 key to use scope"),
 	range = 0,
-    weapon_zoom=4,
 	inventory_image = "rangedweapons_scar.png",
 	RW_gun_capabilities = {
 		automatic_gun = 1,
@@ -149,9 +148,8 @@ minetest.register_tool("rangedweapons:scar20_semi_rrr", {
 	minetest.register_tool("rangedweapons:scar20_semi", {
 	stack_max= 1,
 	wield_scale = {x=1.7,y=1.7,z=1.25},
-description = "" ..core.colorize("#35cdff","FN Scar 20\n") ..core.colorize("#FFFFFF", "DMG: 15 | Capacity: 10 rounds\n")..core.colorize("#FFFFFF", "Ammo: .308 Winchester | Type: Marksman\n")   ..core.colorize("#FFFFFF", "sneak + reload to switch fire mode - current: Semi auto"),
+description = "" ..core.colorize("#35cdff","FN Scar 20\n") ..core.colorize("#FFFFFF", "DMG: 15 | Capacity: 10 rounds\n")..core.colorize("#FFFFFF", "Ammo: .308 Winchester | Type: Marksman\n")   ..core.colorize("#FFFFFF", "sneak + reload to switch fire mode - current: Semi auto\n") ..core.colorize("#FFFFFF", "AUX1 key to use scope"),
 	range = 0,
-    weapon_zoom=4,
     groups = {not_in_creative_inventory = 1},
 	inventory_image = "rangedweapons_scar.png",
 	RW_gun_capabilities = {

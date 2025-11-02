@@ -1,9 +1,6 @@
 rangedweapons = {
 scope_hud = true,
 hit = true,
-ammoimg = true,
-gunimg = true,
-gunammo = true,
 }
 local user = minetest.get_player_by_name()
 
@@ -14,14 +11,6 @@ if user and user:get_player_control().LMB then
 				user:set_wielded_item(itemstack:get_definition().on_use(wielded, user, {type = "nothing"}) or wielded)
 			end
 		end
-
-
-
-
-
-
-
-
 
 
 local modpath = minetest.get_modpath(minetest.get_current_modname())
@@ -45,6 +34,12 @@ minetest.register_node("rangedweapons:antigun_block", {
 ----
 ---- gun_funcs
 ----
+
+
+local function update_ammo_counter_on_gun(gunMeta)
+	gunMeta:set_string("count_meta", tostring(gunMeta:get_int("RW_bullets")))
+end
+
 
 make_sparks = function(pos)
 --minetest.sound_play("rangedweapons_ricochet", {
@@ -156,9 +151,6 @@ if reload_ammo:get_definition().inventory_image ~= nil then
 ammo_icon = reload_ammo:get_definition().inventory_image
 end
 
-	player:hud_change(rangedweapons.gunimg, "text", gun_icon)
-	player:hud_change(rangedweapons.ammoimg, "text", ammo_icon)
-
 local gunMeta = itemstack:get_meta()
 local ammoCount = gunMeta:get_int("RW_bullets")
 local ammoName = gunMeta:get_string("RW_ammo_name")
@@ -177,7 +169,7 @@ end
 
 gunMeta:set_string("RW_ammo_name",reload_ammo:get_name())
 
-player:hud_change(rangedweapons.gunammo, "text", gunMeta:get_int("RW_bullets"))
+update_ammo_counter_on_gun(gunMeta)
 
 if GunCaps.gun_magazine ~= nil then
 		local pos = player:get_pos()
@@ -271,9 +263,6 @@ if reload_ammo:get_definition().inventory_image ~= nil then
 ammo_icon = reload_ammo:get_definition().inventory_image
 end
 
-	player:hud_change(rangedweapons.gunimg, "text", gun_icon)
-	player:hud_change(rangedweapons.ammoimg, "text", ammo_icon)
-
 local gunMeta = itemstack:get_meta()
 local ammoCount = gunMeta:get_int("RW_bullets")
 local ammoName = gunMeta:get_string("RW_ammo_name")
@@ -292,7 +281,7 @@ end
 
 gunMeta:set_string("RW_ammo_name",reload_ammo:get_name())
 
-player:hud_change(rangedweapons.gunammo, "text", gunMeta:get_int("RW_bullets"))
+update_ammo_counter_on_gun(gunMeta)
 
 if GunCaps.gun_unloaded ~= nil then
 itemstack:set_name(GunCaps.gun_unloaded)
@@ -435,13 +424,12 @@ if math.random(1,100) > gun_ammo_save then
 gunMeta:set_int("RW_bullets",gunMeta:get_int("RW_bullets")-1)
 end
 
-player:hud_change(rangedweapons.gunammo, "text", gunMeta:get_int("RW_bullets"))
-
 local gun_icon = "rangedweapons_emergency_gun_icon.png"
 if GunCaps.gun_icon ~= nil then
 gun_icon = GunCaps.gun_icon
 end
-	player:hud_change(rangedweapons.gunimg, "text", gun_icon)
+
+update_ammo_counter_on_gun(gunMeta)
 
 local OnCollision = function() end
 
@@ -531,7 +519,6 @@ local ammo_icon = "rangedweapons_emergency_ammo_icon.png"
 if bulletStack:get_definition().inventory_image ~= nil then
 ammo_icon = bulletStack:get_definition().inventory_image
 end
-player:hud_change(rangedweapons.ammoimg, "text", ammo_icon)
 
 if AmmoCaps ~= nil then
 
@@ -1071,55 +1058,6 @@ minetest.register_abm({
 	end
 })
 
-minetest.register_on_joinplayer(function(player)
- rangedweapons.gunammo = 
-	player:hud_add({
-	hud_elem_type = "text",
-	name = "rangedweapons.gunammo",
-	text = "",
-	number = 0xFFFFFF,
-	scale = {x = 100, y = 20},
-	position = {x = 0.7, y = 0.1},
-	offset = {x = 30, y = 100},
-	alignment = {x = 0, y = -1}
-	})
- rangedweapons.gunimg = 
-	player:hud_add({
-	hud_elem_type = "image",
-	text = "rangedweapons_empty_icon.png",
-	scale = {x = 2, y = 2},
-	position = {x = 0.7, y = 0.065},
-	offset = {x = 30, y = 100},
-	alignment = {x = 0, y = -1}
-	})
- rangedweapons.ammoimg = 
-	player:hud_add({
-	hud_elem_type = "image",
-	text = "rangedweapons_empty_icon.png",
-	scale = {x = 1.5, y = 1.5},
-	position = {x = 0.725, y = 0.1},
-	offset = {x = 30, y = 100},
-	alignment = {x = 0, y = -1}
-	})
- rangedweapons.hit = 
-	player:hud_add({
-	hud_elem_type = "image",
-	text = "rangedweapons_empty_icon.png",
-	scale = {x = 2, y = 2},
-	position = {x = 0.5, y = 0.5},
-	offset = {x = 0, y = 0},
-	alignment = {x = 0, y = 0}
-	})
-rangedweapons.scope_hud = 
-	player:hud_add({
-	hud_elem_type = "image",
-	position = { x=0.5, y=0.5 },
-	scale = { x=-100, y=-100 },
-	text = "rangedweapons_empty_icon.png",
-	})
-end)
-
-
 local slowdown_items = {
 "rangedweapons:minigun",
 "rangedweapons:rpg",
@@ -1164,12 +1102,30 @@ local function update_player_speed(player)
     end
 end
 
-	local timer = 0
+local timer = 0
+local zoomed_players = {}
+local sway_hud = {}
+local sway_offset = {}
+local main_scope_offset = {}
+local scoped_weapons = {
+	["rangedweapons:awp"] = true,
+	["rangedweapons:awp_uld"] = true,
+	["rangedweapons:ak12"] = true,
+	["rangedweapons:as_val"] = true,
+	["rangedweapons:barrett"] = true,
+	["rangedweapons:barrett_rld"] = true,
+	["rangedweapons:g11"] = true,
+	["rangedweapons:gauss_rifle"] = true,
+	["rangedweapons:m200"] = true,
+	["rangedweapons:m200_uld"] = true,
+	["rangedweapons:scar20"] = true,
+	["rangedweapons:scar20_semi"] = true,
+	["rangedweapons:svd"] = true,
+}
 minetest.register_globalstep(function(dtime, player)
 	timer = timer + dtime;
 	if timer >= 1.0 then
 		for _, player in pairs(minetest.get_connected_players()) do
-			player:hud_change(rangedweapons.hit, "text", "rangedweapons_empty_icon.png")
 			timer = 0
 		end
 	end
@@ -1180,32 +1136,6 @@ minetest.register_globalstep(function(dtime, player)
 		local u_meta = player:get_meta()
 		local cool_down = u_meta:get_float("rw_cooldown") or 0
 
-		-- Handle weapon zoom HUD and FOV
-		if w_item:get_definition().weapon_zoom ~= nil then
-			if controls.zoom then
-				player:hud_change(rangedweapons.scope_hud, "text", "rangedweapons_scopehud.png")
-			else
-				player:hud_change(rangedweapons.scope_hud, "text", "rangedweapons_empty_icon.png")
-			end
-
-			local wpn_zoom = w_item:get_definition().weapon_zoom
-			if player:get_properties().zoom_fov ~= wpn_zoom then
-				player:set_properties({ zoom_fov = wpn_zoom })
-			end
-		else
-			player:hud_change(rangedweapons.scope_hud, "text", "rangedweapons_empty_icon.png")
-			if player:get_inventory():contains_item("main", "binoculars:binoculars") then
-				local new_zoom_fov = 10
-				if player:get_properties().zoom_fov ~= new_zoom_fov then
-					player:set_properties({ zoom_fov = new_zoom_fov })
-				end
-			else
-				local new_zoom_fov = 0
-				if player:get_properties().zoom_fov ~= new_zoom_fov then
-					player:set_properties({ zoom_fov = new_zoom_fov })
-				end
-			end
-		end
 
 		-- Handle cooldown timer
 		if cool_down > 0 then
@@ -1303,6 +1233,95 @@ minetest.register_globalstep(function(dtime, player)
 
 			end
 		end
+	end
+
+	--scopes and stuff
+	for _, player in ipairs(minetest.get_connected_players()) do
+	local name = player:get_player_name()
+	local wielded = player:get_wielded_item():get_name()
+	local ctrl = player:get_player_control()
+	local moving = ctrl.up or ctrl.down or ctrl.left or ctrl.right
+
+    	if scoped_weapons[wielded] and ctrl.aux1 then
+        	if not zoomed_players[name] then
+            	player:set_fov(20)
+            	zoomed_players[name] = player:hud_add({
+            	    hud_elem_type = "image",
+            	    position = {x=0.5, y=0.5},
+       	        	scale = {x=4, y=3},
+        	        text = "rangedweapons_scopehud.png",
+        	        alignment = {x=0, y=0},
+        	        offset = {x=0, y=0},
+        	    })
+        	    main_scope_offset[name] = {x=0, y=0, target_x=0, target_y=0}
+				player:hud_set_flags({crosshair = false})
+        	end
+
+        	if not sway_hud[name] then
+        	    sway_hud[name] = player:hud_add({
+            	    hud_elem_type = "image",
+            	    position = {x=0.5, y=0.5},
+            	    scale = {x=8, y=4.5},
+            	    text = "rangedweapons_scopehud_distortion.png",
+            	    alignment = {x=0, y=0},
+        	        offset = {x=0, y=0},
+        	    })
+        	    sway_offset[name] = {x=0, y=0, target_x=0, target_y=0}
+        	end
+
+        local m = main_scope_offset[name]
+        	if moving then
+         	   if math.abs(m.target_x - m.x) < 0.5 and math.abs(m.target_y - m.y) < 0.5 then
+         	    	m.target_x = (math.random() - 0.5) * 150
+        	        m.target_y = (math.random() - 0.5) * 150
+        	    end
+        	else
+        	    m.target_x = 0
+        	    m.target_y = 0
+        	end
+        	m.x = m.x + (m.target_x - m.x) * 0.02
+        	m.y = m.y + (m.target_y - m.y) * 0.02
+        	player:hud_change(zoomed_players[name], "offset", {x=m.x, y=m.y})
+
+        	local s = sway_offset[name]
+        	local max_sway = 300
+        	if moving then
+            	s.target_x = 0
+  	        	s.target_y = 0
+
+            	if ctrl.left then
+            	    s.target_x = max_sway
+            	elseif ctrl.right then
+            	    s.target_x = -max_sway
+            	end
+
+        	    if ctrl.up then
+        	        s.target_y = max_sway
+        	    elseif ctrl.down then
+        	        s.target_y = -max_sway
+        	    end
+        	else
+     	       s.target_x = 0
+     	       s.target_y = 0
+     	   end
+    	    s.x = s.x + (s.target_x - s.x) * 0.05
+    	    s.y = s.y + (s.target_y - s.y) * 0.05
+    	    player:hud_change(sway_hud[name], "offset", {x=s.x, y=s.y})
+
+	    else
+	        if zoomed_players[name] then
+	            player:hud_remove(zoomed_players[name])
+				player:hud_set_flags({crosshair = true})
+		            zoomed_players[name] = nil
+	            main_scope_offset[name] = nil
+	            player:set_fov(0)
+    	    end
+    		if sway_hud[name] then
+	            player:hud_remove(sway_hud[name])
+  	          sway_hud[name] = nil
+		            sway_offset[name] = nil
+	        end
+	    end
 	end
 
 end)

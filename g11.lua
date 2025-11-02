@@ -41,9 +41,8 @@ minetest.register_tool("rangedweapons:g11_rld", {
 -----------------gun--------------
 
 minetest.register_tool("rangedweapons:g11", {
-		description = "" ..core.colorize("#35cdff","HK G11\n") ..core.colorize("#FFFFFF", "DMG: 4 | Capacity: 45 rounds\n")..core.colorize("#FFFFFF", "Ammo: 4.7mm caseless | Type: Assault rifle"),
+		description = "" ..core.colorize("#35cdff","HK G11\n") ..core.colorize("#FFFFFF", "DMG: 4 | Capacity: 45 rounds\n")..core.colorize("#FFFFFF", "Ammo: 4.7mm caseless | Type: Assault rifle\n") ..core.colorize("#FFFFFF", "AUX1 key to use scope"),
 	range = 0,
-    weapon_zoom = 9,
 	wield_scale = {x=0.9,y=0.9,z=1.0},
 	inventory_image = "g11.png",
 	RW_gun_capabilities = {
@@ -57,7 +56,6 @@ minetest.register_tool("rangedweapons:g11", {
 	--	gun_magazine = "rangedweapons:handgun_mag_black",
 		gun_icon = "g11_icon.png",
 		gun_unloaded = "rangedweapons:g11_r",
-        gun_cooling = "rangedweapons:g11",
 		gun_velocity = 30,
 		gun_accuracy = 95,
 		gun_cooldown = 0.05,

@@ -48,7 +48,7 @@ minetest.register_tool("rangedweapons:ak12_rld", {
 	minetest.register_tool("rangedweapons:ak12", {
 	stack_max= 1,
 	wield_scale = {x=1.75,y=1.75,z=1.3},
-		description = "" ..core.colorize("#35cdff","AK-12\n") ..core.colorize("#FFFFFF", "DMG: 5 | Capacity: 40 rounds\n")..core.colorize("#FFFFFF", "Ammo: 5.45mm | Type: assault rifle"),
+		description = "" ..core.colorize("#35cdff","AK-12\n") ..core.colorize("#FFFFFF", "DMG: 5 | Capacity: 40 rounds\n")..core.colorize("#FFFFFF", "Ammo: 5.45mm | Type: assault rifle\n")..core.colorize("#FFFFFF", "AUX1 key to use scope"),
 	range = 0,
     weapon_zoom = 1.2,
 	inventory_image = "ak112.png",

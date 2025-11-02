@@ -48,10 +48,9 @@ minetest.register_tool("rangedweapons:as_val_rld", {
 	minetest.register_tool("rangedweapons:as_val", {
 	stack_max= 1,
 	wield_scale = {x=1.75,y=1.75,z=1.3},
-		description = "" ..core.colorize("#35cdff","AS 'Val'\n") ..core.colorize("#FFFFFF", "DMG: 6 | Capacity: 20 rounds\n")..core.colorize("#FFFFFF", "Ammo: 9x39mm | Type: assault rifle"),
+		description = "" ..core.colorize("#35cdff","AS 'Val'\n") ..core.colorize("#FFFFFF", "DMG: 6 | Capacity: 20 rounds\n")..core.colorize("#FFFFFF", "Ammo: 9x39mm | Type: assault rifle\n") ..core.colorize("#FFFFFF", "AUX1 key to use scope"),
 	range = 0,
 	inventory_image = "as_val.png",
-    weapon_zoom = 3.5,
 	RW_gun_capabilities = {
 		automatic_gun = 1,
 		gun_damage = {fleshy=6,knockback=0},

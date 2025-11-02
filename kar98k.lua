@@ -7,8 +7,20 @@ minetest.register_tool("rangedweapons:kar98k_uld", {
 	groups = {not_in_creative_inventory = 1},
 		description = "" ..core.colorize("#35cdff","Karabiner 98 kurz\n") ..core.colorize("#FFFFFF", "DMG: 12 | Capacity: 5 rounds\n")..core.colorize("#FFFFFF", "Ammo: 7.62mm | Type: Rifle"),
 	inventory_image = "kar98k.png",
-	on_use = function(user)
-		minetest.sound_play("rangedweapons_empty", {user})
+	on_use = function(itemstack, user, pointed_thing)
+		
+		if not user then
+			return itemstack
+		end
+		local pos = user:get_pos()
+		minetest.sound_play("rangedweapons_empty", {
+			pos = pos,
+			max_hear_distance = 15,
+			gain = 1.0,
+			fade = 0.0,
+			pitch = 1.0,
+		})
+		return itemstack
 	end,
 on_secondary_use = function(itemstack, user, pointed_thing)
 eject_shell(itemstack,user,"rangedweapons:kar98k_rld",0.5,"rangedweapons_rifle_reload_a","rangedweapons:empty_shell")

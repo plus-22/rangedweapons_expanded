@@ -53,7 +53,7 @@ minetest.register_tool("rangedweapons:svd_rld", {
 
 
 minetest.register_tool("rangedweapons:svd", {
-description = "" ..core.colorize("#35cdff","SVD\n") ..core.colorize("#FFFFFF", "DMG: 17 | Capacity: 10 rounds\n")..core.colorize("#FFFFFF", "Ammo: 7.62mm | Type: Sniper rifle"),
+description = "" ..core.colorize("#35cdff","SVD\n") ..core.colorize("#FFFFFF", "DMG: 17 | Capacity: 10 rounds\n")..core.colorize("#FFFFFF", "Ammo: 7.62mm | Type: Sniper rifle\n") ..core.colorize("#FFFFFF", "AUX1 key to use scope"),
 	range = 0,
 	weapon_zoom = 9,
 	wield_scale = {x=1.9,y=1.9,z=1.1},

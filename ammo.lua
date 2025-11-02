@@ -313,7 +313,6 @@ end
 moveresult.collisions[1].object:punch(owner, 1.0, {
 		full_punch_interval = 1.0,
 		damage_groups = damage,}, nil)
-owner:hud_change(rangedweapons.hit, "text", hit_texture)
 
 	for i=1,math.random(math.ceil(rweapons_bloodyness*0.66),math.ceil(rweapons_bloodyness*1.5)) do
 if rweapons_enable_sparks == "true" then

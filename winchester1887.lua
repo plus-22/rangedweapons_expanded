@@ -54,8 +54,20 @@ minetest.register_tool("rangedweapons:1887_uld", {
 description = "" ..core.colorize("#35cdff","Winchester M1887\n") ..core.colorize("#FFFFFF", "DMG: 4x4 | Capacity: 4 rounds\n")..core.colorize("#FFFFFF", "Ammo: 12 gauge | Type: Shotgun"),
 	inventory_image = "1887.png",
 	groups = {not_in_creative_inventory = 1},
-	on_use = function(user)
-		minetest.sound_play("rangedweapons_empty", {user})
+	on_use = function(itemstack, user, pointed_thing)
+		
+		if not user then
+			return itemstack
+		end
+		local pos = user:get_pos()
+		minetest.sound_play("rangedweapons_empty", {
+			pos = pos,
+			max_hear_distance = 15,
+			gain = 1.0,
+			fade = 0.0,
+			pitch = 1.0,
+		})
+		return itemstack
 	end,
 on_secondary_use = function(itemstack, user, pointed_thing)
 eject_shell(itemstack,user,"rangedweapons:1887_rld",0.6,"rangedweapons_shotgun_reload_a","rangedweapons:empty_shell")

@@ -5,9 +5,8 @@ minetest.register_craftitem("rangedweapons:blue_ray_visual", {
 
 	minetest.register_tool("rangedweapons:gauss_rifle", {
 	wield_scale = {x=2.2,y=2.7,z=2},
-		description = "" ..core.colorize("#35cdff","Gauss rifle\n") ..core.colorize("#FFFFFF", "DMG: 45 \n")..core.colorize("#FFFFFF", "Ammo: microfusion cells (25) | Type: Laser weapon"),
+		description = "" ..core.colorize("#35cdff","Gauss rifle\n") ..core.colorize("#FFFFFF", "DMG: 45 \n")..core.colorize("#FFFFFF", "Ammo: microfusion cells (25) | Type: Laser weapon\n") ..core.colorize("#FFFFFF", "AUX1 key to use scope"),
 	range = 0,
-    weapon_zoom = 5,
     groups={not_in_creative_inventory=1},
 RW_powergun_capabilities = {
 		power_damage = {fleshy=45,knockback=0},

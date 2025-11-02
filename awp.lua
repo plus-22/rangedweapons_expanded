@@ -4,12 +4,23 @@ minetest.register_tool("rangedweapons:awp_uld", {
 	stack_max= 1,
 	wield_scale = {x=1.9,y=1.9,z=1.1},
 	range = 0,
-		description = "" ..core.colorize("#35cdff","A.W.P\n") ..core.colorize("#FFFFFF", "DMG: 18 | Capacity: 10 rounds\n")..core.colorize("#FFFFFF", "Ammo: 7.62mm/.308 winchester | Type: sniper rifle"),
+		description = "" ..core.colorize("#35cdff","A.W.P\n") ..core.colorize("#FFFFFF", "DMG: 18 | Capacity: 10 rounds\n")..core.colorize("#FFFFFF", "Ammo: 7.62mm/.308 winchester | Type: sniper rifle\n") ..core.colorize("#FFFFFF", "AUX1 key to use scope"),
 	groups = {not_in_creative_inventory = 1},
 	inventory_image = "rangedweapons_awp.png",
-	weapon_zoom = 7.5,
-	on_use = function(user)
-		minetest.sound_play("rangedweapons_empty", {user})
+	on_use = function(itemstack, user, pointed_thing)
+		
+		if not user then
+			return itemstack
+		end
+		local pos = user:get_pos()
+		minetest.sound_play("rangedweapons_empty", {
+			pos = pos,
+			max_hear_distance = 15,
+			gain = 1.0,
+			fade = 0.0,
+			pitch = 1.0,
+		})
+		return itemstack
 	end,
 on_secondary_use = function(itemstack, user, pointed_thing)
 eject_shell(itemstack,user,"rangedweapons:awp_rld",1.0,"rangedweapons_rifle_reload_a","rangedweapons:empty_shell")
@@ -60,9 +71,8 @@ minetest.register_tool("rangedweapons:awp_rld", {
 
 
 minetest.register_tool("rangedweapons:awp", {
-		description = "" ..core.colorize("#35cdff","A.W.P\n") ..core.colorize("#FFFFFF", "DMG: 18 | Capacity: 10 rounds\n")..core.colorize("#FFFFFF", "Ammo: 7.62mm/.308 winchester | Type: sniper rifle"),
+		description = "" ..core.colorize("#35cdff","A.W.P\n") ..core.colorize("#FFFFFF", "DMG: 18 | Capacity: 10 rounds\n")..core.colorize("#FFFFFF", "Ammo: 7.62mm/.308 winchester | Type: sniper rifle\n") ..core.colorize("#FFFFFF", "AUX1 key to use scope"),
 	range = 0,
-	weapon_zoom = 7.5,
 	wield_scale = {x=1.9,y=1.9,z=1.1},
 	inventory_image = "rangedweapons_awp.png",
 RW_gun_capabilities = {
@@ -100,4 +110,3 @@ return itemstack
 	end,
 
 })
-
