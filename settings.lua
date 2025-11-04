@@ -1,6 +1,6 @@
 
 
-rweapons_player_dmg_multiplier = 2
+rweapons_player_dmg_multiplier = 1.25
 rweapons_mob_dmg_multiplier = 1.0
 rweapons_headshot_dmg_multiplier = 1.25
 rweapons_max_gun_efficiency = 30000

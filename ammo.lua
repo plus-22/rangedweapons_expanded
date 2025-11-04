@@ -25,7 +25,7 @@ initial_properties = {
 	textures = {"rangedweapons:shot_bullet_visual"},
 	lastpos = {},
         collide_with_objects = true,
-	collisionbox = {-0.0025, -0.0025, -0.0025, 0.0025, 0.0025, 0.0025},
+	collisionbox = {-0.05, -0.05, -0.05, 0.05, 0.05, 0.05},
 },
 }
 rangedweapons_shot_bullet.on_step = function(self, dtime, moveresult)
@@ -93,18 +93,6 @@ local hit_texture = minetest.registered_nodes[minetest.get_node(moveresult.colli
 if hit_texture.name ~= nil then
 hit_texture = hit_texture.name
 end
-
-	--[[minetest.add_particle({
-		pos = self.object:get_pos(),
-		velocity = {x=0, y=0, z=0},
-          	acceleration = {x=0, y=0, z=0},
-		expirationtime = 2,
-		size = math.random(10,20)/10,
-		collisiondetection = false,
-		vertical = false,
-		texture = "rangedweapons_bullethole.png",
-		glow = 0,
-	})]]
 
 	for i=1,math.random(4,8) do
 if rweapons_enable_sparks == "true" then
@@ -257,7 +245,7 @@ end
 
 end
 
-if moveresult.collisions[1].type == "object" and (not moveresult.collisions[1].object:is_player() or moveresult.collisions[1].object:get_player_name() ~= self.owner) then
+if moveresult.collisions[1].type == "object" and (not moveresult.collisions[1].object:is_player() or moveresult.collisions[1].object:get_player_name() ~= self.owner) then	
 
 
 local actualDamage = self.damage or {fleshy=1}
@@ -310,9 +298,30 @@ vertical = false, texture = "rangedweapons_crit.png", glow = 30,})
 hit_texture = "rangedweapons_crithit.png"
 end
 
-moveresult.collisions[1].object:punch(owner, 1.0, {
-		full_punch_interval = 1.0,
-		damage_groups = damage,}, nil)
+local victim = moveresult.collisions[1].object
+local total_damage = 0
+
+for _, dmg in pairs(damage) do
+    total_damage = total_damage + dmg
+end
+
+if victim:is_player() then
+    local armor_def = armor and armor.def and armor.def[victim:get_player_name()]
+    local armor_percent = 0
+
+    if armor_def and armor_def.level then
+        armor_percent = armor_def.level
+    end
+
+    local reduction = (armor_percent / 100) * 0.7  -- 70% max
+    local final_damage = total_damage * (1 - reduction)
+
+    victim:set_hp(victim:get_hp() - final_damage)
+else
+    victim:set_hp(victim:get_hp() - total_damage)
+end
+
+
 
 	for i=1,math.random(math.ceil(rweapons_bloodyness*0.66),math.ceil(rweapons_bloodyness*1.5)) do
 if rweapons_enable_sparks == "true" then

@@ -28,7 +28,7 @@ RW_powergun_capabilities = {
 		power_entity = "rangedweapons:shot_bullet",
 		power_visual = "wielditem",
 		power_texture = "rangedweapons:red_ray_visual",
-		power_projectile_size = 0.075,
+		power_projectile_size = 0.00175,
 		has_sparks = 0,
 		ignites_explosives = 1,
 	},
